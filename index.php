@@ -13,7 +13,7 @@
 		<!-- Init Script -->
 		<script type="text/javascript">	
 			var version = "0.1";
-			var etcdServer = "http://104.155.206.199:4001/v2/";
+			var etcdServer = "https://etcd.caffeine.io/v2/";
 			$(document).ready(function(){
 				$("#etcd-server").val(etcdServer);
 				$('button#parent-btn').removeClass('btn btn-primary').addClass( "btn btn-primary disabled" );
