@@ -107,12 +107,12 @@ function returnButton(key,mode) {
 	result = "";
 	if(mode == "node"){
 		
-		result += '<button onclick=delKeys("'+key+'") class="btn btn-small btn-danger">Delete</button> ';
+		result += '<button onclick=delKeys("'+key+'") class="btn btn-small btn-danger">Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ';
 		result += '<button onclick=KeysInfo("'+key+'") class="btn btn-small btn-info">Info</button> ';
 		result += '<button onclick=updateKeys("'+key+'") class="btn btn-small btn-success">Update</button> ';
 	} else if(mode == "dir"){
 		
-		result += '<button onclick=delDirKeys("'+key+'") class="btn btn-small btn-danger">Delete</button> ';
+		result += '<button onclick=delDirKeys("'+key+'") class="btn btn-small btn-danger">Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ';
 		result += '<button onclick=KeysInfo("'+key+'") class="btn btn-small btn-info">Info</button> ';
 		result += '<button onclick=showKeys("'+key+'") class="btn btn-small btn-primary">Directory</button> ';
 	}
@@ -166,21 +166,23 @@ function updateKeys(key) {
 }
 
 function delKeys(key) {
-	$.ajax({
-		type: "GET",
-		url: "etcd.php?cmd=del&url=keys"+key+"&etcd="+$("#etcd-server").val(),			
-		success: function(data){
-			if(typeof(data.errorCode) == "undefined"){
-				deleteETCDKey(data.node.key);
-				updateKeysView();
-			} else {
-				alert("Error:"+data.errorCode+ " Message:"+data.message);
-			}
-		},
-		error: function(xhr, ajaxOptions, thrownError){
-			console.log(thrownError);								
-		}
-	});
+        if (confirm('Are you sure you want to delete this?')) {
+            $.ajax({
+                    type: "GET",
+                    url: "etcd.php?cmd=del&url=keys"+key+"&etcd="+$("#etcd-server").val(),			
+                    success: function(data){
+                            if(typeof(data.errorCode) == "undefined"){
+                                    deleteETCDKey(data.node.key);
+                                    updateKeysView();
+                            } else {
+                                    alert("Error:"+data.errorCode+ " Message:"+data.message);
+                            }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError){
+                            console.log(thrownError);								
+                    }
+            });
+        }
 }
 
 function delDirKeys(key) {
